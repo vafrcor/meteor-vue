@@ -1,0 +1,22 @@
+# Created by https://www.toptal.com/developers/gitignore/api/meteorjs
+# Edit at https://www.toptal.com/developers/gitignore?templates=meteorjs
+
+### MeteorJS ###
+# default meteor build and local packages
+.meteor/local
+
+# meteor settings file
+settings.json
+
+# meteor build output files
+*.tar.gz
+
+# general swp files from vim
+*.swp
+
+# End of https://www.toptal.com/developers/gitignore/api/meteorjs
+
+# Another rules
+!.gitignore
+node_modules/
+.cache/
