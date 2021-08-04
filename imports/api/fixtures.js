@@ -1,7 +1,14 @@
 import { Meteor } from 'meteor/meteor';
-import Links from './collections/Links.js';
+// import Links from './collections/Links.js';
+import { TasksCollection } from './collections/Tasks.js'
+
+const insertTask= (taskText) => {
+  // console.log('task text: '+taskText)
+  TasksCollection.insert({ text: taskText });
+}
 
 Meteor.startup(() => {
+  /*  
   // if the Links collection is empty
   if (Links.find().count() === 0) {
     const data = [
@@ -28,5 +35,19 @@ Meteor.startup(() => {
     ];
 
     data.forEach(link => Links.insert(link));
+  }
+  */
+
+  if (TasksCollection.find().count() === 0) {
+    [
+      '1st Task',
+      '2nd Task',
+      '3rd Task',
+      '4th Task',
+      '5th Task',
+      '6th Task',
+      '7th Task'
+    ].forEach(insertTask);
+    
   }
 });
