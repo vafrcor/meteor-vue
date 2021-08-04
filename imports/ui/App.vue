@@ -8,7 +8,7 @@
     <header>
       <h1> Todo list</h1>
     </header>
-
+    <TaskForm />
     <ul>
       <Task 
         v-for="task in tasks" 
@@ -24,29 +24,23 @@ import Vue from 'vue';
 // import Hello from './components/Hello.vue';
 // import Info from './components/Info.vue';
 import Task from './components/Task.vue';
+import TaskForm from './components/TaskForm.vue';
 import { TasksCollection } from "../api/collections/Tasks.js";
 
 export default {
   components: {
     // Hello,
     // Info,
-    Task
+    Task,
+    TaskForm
   },
   data(){
     return {};
   },
-  methods: {
-    getTasks(){
-      return [
-        { _id: 1, text: 'ABC' },
-        { _id: 2, text: 'DEF' },
-        { _id: 3, text: 'GHI' }
-      ]
-    }
-  },
+  methods: {},
   meteor: {
     tasks() {
-      return TasksCollection.find({}).fetch();
+      return TasksCollection.find({}, { sort: { createdAt: -1 }}).fetch();
     }
   }
 }
@@ -56,5 +50,9 @@ export default {
   body {
     font-family: sans-serif;
     padding: 10px;
+  }
+  .new-task{
+    margin-top: 1rem;
+    border-color: red;
   }
 </style>
