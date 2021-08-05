@@ -1,21 +1,28 @@
 <template>
-  <div class="container">
+  <div class="app">
     <!-- 
     <h1>Welcome to Meteor!</h1>
     <hello/>
     <info/> 
     -->
     <header>
-      <h1> Todo list</h1>
+      <div className="app-bar">
+        <div className="app-header">
+          <h1>📝️ Todo list</h1>
+        </div>
+      </div>
     </header>
-    <TaskForm />
-    <ul>
-      <Task 
-        v-for="task in tasks" 
-        v-bind:key="task._id"
-        v-bind:task="task"
-      />
-    </ul>
+    <div class="main">
+      <TaskForm />
+      <ul class="tasks">
+        <Task 
+          class="task"
+          v-for="task in tasks" 
+          v-bind:key="task._id"
+          v-bind:task="task"
+        />
+      </ul>
+    </div>
   </div>
 </template>
 
@@ -46,6 +53,7 @@ export default {
 }
 </script>
 
+<!-- 
 <style>
   body {
     font-family: sans-serif;
@@ -55,4 +63,5 @@ export default {
     margin-top: 1rem;
     border-color: red;
   }
-</style>
+</style> 
+-->
