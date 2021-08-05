@@ -8,12 +8,26 @@
     <header>
       <div className="app-bar">
         <div className="app-header">
-          <h1>📝️ Todo list</h1>
+          <h1>
+            📝️ Todo list&nbsp;
+            <span v-if="incompleteCount > 0">({{ incompleteCount }})</span>
+          </h1>
         </div>
       </div>
     </header>
     <div class="main">
       <TaskForm />
+
+      <div class="filter">
+        <button
+            v-model="hideCompleted"
+            @click="toggleHideCompleted"
+        >
+          <span v-if="hideCompleted">Show All</span>
+          <span v-else>Hide Completed Tasks</span>
+        </button>
+      </div>
+
       <ul class="tasks">
         <Task 
           class="task"
@@ -42,26 +56,28 @@ export default {
     TaskForm
   },
   data(){
-    return {};
+    return {
+      hideCompleted: false
+    };
   },
-  methods: {},
+  methods: {
+    toggleHideCompleted() {
+      this.hideCompleted = !this.hideCompleted;
+    }
+  },
   meteor: {
     tasks() {
-      return TasksCollection.find({}, { sort: { createdAt: -1 }}).fetch();
+      let filteredTasks = TasksCollection.find({}, { sort: { createdAt: -1 } }).fetch();
+    
+      if (this.hideCompleted) {
+        filteredTasks = filteredTasks.filter(task => !task.checked);
+      }
+
+      return filteredTasks;
+    },
+    incompleteCount(){
+      return TasksCollection.find({checked: { $ne: true }}).count()
     }
   }
 }
 </script>
-
-<!-- 
-<style>
-  body {
-    font-family: sans-serif;
-    padding: 10px;
-  }
-  .new-task{
-    margin-top: 1rem;
-    border-color: red;
-  }
-</style> 
--->

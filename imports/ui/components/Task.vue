@@ -36,9 +36,3 @@
     }
 	}
 </script>
-
-<style>
-  button.delete{
-    color: red;
-  }
-</style>

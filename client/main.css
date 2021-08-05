@@ -126,8 +126,13 @@ header {
   background-color: #ff3046;
 }
 
-.new-task{
+
+.filter {
   display: flex;
-  padding: 16px;
-  border-bottom: #efefef solid 2px;
+  justify-content: center;
 }
+
+.filter > button {
+  background-color: #62807e;
+}
+
