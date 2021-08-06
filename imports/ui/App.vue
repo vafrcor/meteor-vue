@@ -26,7 +26,7 @@
             <span v-else>Hide Completed Tasks</span>
           </button>
         </div>
-
+        <div class="loading" v-if="!$subReady.tasks">Loading...</div>
         <ul class="tasks">
           <Task 
             class="task"
@@ -71,6 +71,9 @@ export default {
     }
   },
   meteor: {
+    $subscribe: {
+      'tasks': []
+    },
     tasks() {
       if (!this.currentUser){
         return [];
