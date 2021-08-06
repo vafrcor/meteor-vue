@@ -1,4 +1,4 @@
-<template>
+<template >
   <div class="app">
     <!-- 
     <h1>Welcome to Meteor!</h1>
@@ -16,26 +16,35 @@
       </div>
     </header>
     <div class="main">
-      <TaskForm />
+      <template v-if="currentUser">
+        <div class="user" v-on:click="logout">
+          {{ currentUser.username }}&nbsp;🚪
+        </div>
+        <TaskForm />
 
-      <div class="filter">
-        <button
-            v-model="hideCompleted"
-            @click="toggleHideCompleted"
-        >
-          <span v-if="hideCompleted">Show All</span>
-          <span v-else>Hide Completed Tasks</span>
-        </button>
-      </div>
+        <div class="filter">
+          <button
+              v-model="hideCompleted"
+              @click="toggleHideCompleted"
+          >
+            <span v-if="hideCompleted">Show All</span>
+            <span v-else>Hide Completed Tasks</span>
+          </button>
+        </div>
 
-      <ul class="tasks">
-        <Task 
-          class="task"
-          v-for="task in tasks" 
-          v-bind:key="task._id"
-          v-bind:task="task"
-        />
-      </ul>
+        <ul class="tasks">
+          <Task 
+            class="task"
+            v-for="task in tasks" 
+            v-bind:key="task._id"
+            v-bind:task="task"
+          />
+        </ul>
+      </template>
+      <template v-else>
+        <LoginForm />
+      </template>
+      
     </div>
   </div>
 </template>
@@ -46,6 +55,7 @@ import Vue from 'vue';
 // import Info from './components/Info.vue';
 import Task from './components/Task.vue';
 import TaskForm from './components/TaskForm.vue';
+import LoginForm from './components/LoginForm.vue';
 import { TasksCollection } from "../api/collections/Tasks.js";
 
 export default {
@@ -53,7 +63,8 @@ export default {
     // Hello,
     // Info,
     Task,
-    TaskForm
+    TaskForm,
+    LoginForm
   },
   data(){
     return {
@@ -63,20 +74,35 @@ export default {
   methods: {
     toggleHideCompleted() {
       this.hideCompleted = !this.hideCompleted;
+    },
+    logout() {
+      Meteor.logout();
     }
   },
   meteor: {
     tasks() {
-      let filteredTasks = TasksCollection.find({}, { sort: { createdAt: -1 } }).fetch();
-    
-      if (this.hideCompleted) {
-        filteredTasks = filteredTasks.filter(task => !task.checked);
+      if (!this.currentUser){
+        return [];
       }
+      const hideCompletedFilter= { isChecked: { $ne: true } };
+      const userFilter= this.currentUser? { userId: this.currentUser._id } : {};
+      const pendingOnlyFilter= {...hideCompletedFilter, ...userFilter };
 
-      return filteredTasks;
+      return TasksCollection.find(
+        this.hideCompleted? pendingOnlyFilter : userFilter,
+        {
+          sort: { createdAt: -1 }
+        }
+      ).fetch();
     },
     incompleteCount(){
-      return TasksCollection.find({checked: { $ne: true }}).count()
+      return this.currentUser? TasksCollection.find({
+        checked: { $ne: true },
+        userId: this.currentUser._id
+      }).count() : 0;
+    },
+    currentUser(){
+      return Meteor.user();
     }
   }
 }

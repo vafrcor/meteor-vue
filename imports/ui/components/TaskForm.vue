@@ -16,8 +16,13 @@
     },
     methods: {
       handleSubmit(event){
+        if (this.newTask.length === 0) return;
+
+        const user= Meteor.user();
+
         TasksCollection.insert({
           text: this.newTask,
+          userId: user._id,
           createdAt: new Date() // current time
         });
 
