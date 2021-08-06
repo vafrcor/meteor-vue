@@ -1,10 +1,5 @@
 <template >
   <div class="app">
-    <!-- 
-    <h1>Welcome to Meteor!</h1>
-    <hello/>
-    <info/> 
-    -->
     <header>
       <div className="app-bar">
         <div className="app-header">
@@ -51,8 +46,6 @@
 
 <script>
 import Vue from 'vue';
-// import Hello from './components/Hello.vue';
-// import Info from './components/Info.vue';
 import Task from './components/Task.vue';
 import TaskForm from './components/TaskForm.vue';
 import LoginForm from './components/LoginForm.vue';
@@ -60,8 +53,6 @@ import { TasksCollection } from "../api/collections/Tasks.js";
 
 export default {
   components: {
-    // Hello,
-    // Info,
     Task,
     TaskForm,
     LoginForm
@@ -97,7 +88,7 @@ export default {
     },
     incompleteCount(){
       return this.currentUser? TasksCollection.find({
-        checked: { $ne: true },
+        isChecked: { $ne: true },
         userId: this.currentUser._id
       }).count() : 0;
     },

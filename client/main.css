@@ -16,6 +16,10 @@ body {
   font-size: 14px;
 }
 
+div.main {
+  font-size:  1.4em;
+}
+
 button {
   font-weight: bold;
   font-size: 1em;
@@ -115,6 +119,10 @@ header {
   display: flex;
   padding: 16px;
   border-bottom: #eee solid 1px;
+}
+
+.task input[type=checkbox]{
+  margin-right: 10px;
 }
 
 .task > span {

@@ -3,7 +3,7 @@
     <input 
       type="checkbox" 
       readonly
-      v-bind:checked="!!this.task.checked" 
+      v-bind:checked="!!this.task.isChecked" 
       @click="toggleChecked"
     />
     <span class="text">{{ this.task.text }}</span>
@@ -20,18 +20,16 @@
 		},
     computed: {
       taskClassName: function(){
-        return this.task.checked? "checked" : "";
+        return this.task.isChecked? "checked" : "";
       }
     },
     methods:{
       toggleChecked: function(){
         // Set the checked property to the opposite of its current value
-        TasksCollection.update(this.task._id, {
-          $set: { checked: !this.task.checked }
-        });
+        Meteor.call('tasks.setIsChecked', this.task._id, !this.task.isChecked);
       },
       deleteThisTask: function(){
-        TasksCollection.remove(this.task._id);
+        Meteor.call('tasks.remove', this.task._id);
       }
     }
 	}
