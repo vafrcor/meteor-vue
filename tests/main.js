@@ -1,9 +1,11 @@
 import assert from "assert";
+import '../imports/api/methods/tasks.tests.js';
 
-describe("skel", function () {
+
+describe("App Name", function () {
   it("package.json has correct name", async function () {
     const { name } = await import("../package.json");
-    assert.strictEqual(name, "skel");
+    assert.strictEqual(name, "simple-todos-vue");
   });
 
   if (Meteor.isClient) {
@@ -18,3 +20,4 @@ describe("skel", function () {
     });
   }
 });
+
